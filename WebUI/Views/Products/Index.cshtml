@@ -1,0 +1,401 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <div class="dropdown pull-right">
+                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                    <i class="zmdi zmdi-more-vert"></i>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" data-toggle="modal" data-target="#product-adding-modal">Add</a></li>
+                </ul>
+            </div>
+
+            <h4 class="header-title m-t-0 m-b-30">List of Products</h4>
+
+            <div id="datatable-buttons_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                <table id="datatable-buttons" class="table table-striped table-bordered dataTable no-footer dtr-inline collapsed" role="grid" aria-describedby="datatable-buttons_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Id" style="width: 20px;">Id</th>
+                            <th class="sorting_" tabindex="1" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name" style="width: 450px;">Name</th>
+                            <th class="sorting" tabindex="2" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-label="NumberOfProduct" style="width: 100px;">NumberOfProduct</th>
+                            <th class="sorting" tabindex="3" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-label="Price" style="width: 200px;">Price</th>
+                            <th class="sorting" tabindex="4" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-label="Description" style="width: 175px">Description</th>
+                            <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
+                            <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
+                            <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
+                            <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr role="row" class="odd">
+                                <td class="sorting_1" tabindex="0">@product.Id</td>
+                                <td>@product.Name</td>
+                                <td>@product.NumberOfProduct</td>
+                                <td>@product.Price</td>
+                                <td>@product.Description</td>
+                                <td align="center"><button class="btn btn-warning updateBtn" data-product-id="@product.Id">Edit</button></td>
+                                <td align="center"><button class="btn btn-danger deleteBtn" data-product-id="@product.Id" id="handleDeleteProduct">Delete</button></td>
+                                <td align="center"><button class="btn btn-success detailsBtn" data-product-id="@product.Id">Details</button></td>
+                                <td align="center"><button class="btn btn-info detailBtn" data-product-id="@product.Id">Detail</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="product-adding-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i class="fa fa-plus-circle"></i> Add Product</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="addName" class="control-label">Name</label>
+                                <input type="text" class="form-control" id="addName">
+                            </div>
+                            <div class="form-group">
+                            <label for="addNumberOfProduct" class="control-label">Number Of Product</label>
+                            <input type="text" class="form-control" id="addNumberOfProduct">
+
+                            </div>
+                            <div class="form-group">
+                            <label for="addPrice" class="control-label">Price</label>
+                            <input type="text" class="form-control" id="addPrice">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="addDescription" class="control-label">Description</label>
+                                <input type="text" class="form-control" id="addDescription">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" id="submitAddForm" class="btn btn-purple waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div id="product-updating-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i class="fa fa-plus-circle"></i> Update Product</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                        <input type="hidden" id="editId" />
+
+                            <div class="form-group">
+                            <label for="editName" class="control-label">Name</label>
+                            <input type="text" id="editName" class="form-control">
+                            </div>                       
+                            <div class="form-group">
+                            <label for="editNumberOfProduct" class="control-label">Height</label>
+                            <input type="text" id="editNumberOfProduct" class="form-control">
+                        </div>
+                            <div class="form-group">
+                            <label for="editPrice" class="control-label">Weight</label>
+                            <input type="text" id="editPrice" class="form-control">
+
+                          </div>
+                            <div class="form-group">
+                            <label for="editDescription" class="control-label">Width</label>
+                            <input type="text" id="editDescription" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-purple waves-effect waves-light" id="submitEditForm">Save changes</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div id="product-details-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"><i class="fa fa-plus-circle"></i>Product Details</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive" style="max-width:100%;overflow-x:auto">@* yana sürüklenen scrooll çirkin bir yapı ://*@
+                            <div id="datatable-buttons_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                <table id="datatable-buttons" class="table table-striped table-bordered dataTable no-footer dtr-inline collapsed" role="grid" aria-describedby="datatable-buttons_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Id</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Name</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Number Of Product</th>
+                                            <th class ="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Price</th>
+                                            <th class ="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Description</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Created Date</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Created User Id</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Is Active</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatable-buttons" rowspan="1" colspan="1" aria-sort="ascending">Is Deleted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="product_list"></tbody>
+                                </table>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="product-detail-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"><i class="fa fa-plus-circle"></i>Product Detail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="editId" class="control-label">Id</label>
+                            <input type="text" id="editId" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editName" class="control-label">Name</label>
+                            <input type="text" id="editName" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editNumberOfProduct" class="control-label">Number Of Product</label>
+                            <input type="text" id="editNumberOfProduct" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editPrice" class="control-label">Price</label>
+                            <input type="text" id="editPrice" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editDescription" class="control-label">Description</label>
+                            <input type="text" id="editDescription" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCreatedDate" class="control-label">Created Date</label>
+                            <input type="text" id="editCreatedDate" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCreatedUserId" class="control-label">Created User Id</label>
+                            <input type="text" id="editCreatedUserId" disabled class="form-control">
+                        </div>
+                         <div class="form-group">
+                            <label for="editIsActive" class="control-label">Is Active</label>
+                            <input type="text" id="editIsActive" disabled class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="editIsDeleted" class="control-label">Is Deleted</label>
+                            <input type="text" id="editIsDeleted" disabled class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#submitAddForm').click(function () {
+        var reqData = {
+            name: $('#addName').val(),
+            numberOfProduct: $('#addNumberOfProduct').val(),
+            price: $('#addPrice').val(),
+            description: $('#addDescription').val(),
+        };
+        $.ajax({
+            url: "@Url.Action("Add","Products")",
+            method: "POST",
+            dataType: "json",
+            data: reqData,
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    //orijinal veri silme yöntemi(uyarısız)
+    //$('.deleteBtn').click(function () {
+    //    var id = $(this).data("product-id");
+    //    $.ajax({
+    //        url: "@Url./*Action("Delete","Products")*/",
+    //        method: "POST",
+    //        dataType: "json",
+    //        data: { products: { id } },
+    //        success: function (response) {
+    //            if (response.success) {
+    //                alert(response.message)
+    //            } else {
+    //                alert(response.message)
+    //            }
+    //        }
+    //    });
+    //})
+
+    $('.deleteBtn').click(function () {
+        var id = $(this).data("product-id");
+        swal({
+            title: "Silmek istediğinizden emin misiniz?",
+            text: "Silinen kayıtlar bir daha listelenmez!",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Iptal",
+            confirmButtonClass: "btn-warning",
+            confirmButtonText: "Evet, silebilirsin!",
+            closeOnConfirm: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "@Url.Action("Delete","Products")",
+                    method: "POST",
+                    dataType: "json",
+                    data: { products: { id } },
+                    success: function (response) {
+                        if (response.success) {
+                            swal("Başarılı!", "Ürün başarıyla silindi.", "success");
+                            location.reload();
+                        } else {
+                            swal("Hata!", response.message, "error");
+                        }
+                    }
+                });
+            } else {
+                swal("İptal Edildi", "Ürün silinmedi.", "info");
+            }
+        });
+    });
+
+    $('#submitEditForm').click(function () {
+        var reqData = {
+            name: $('#editName').val(),
+            numberOfProduct: $('#editNumberOfProduct').val(),
+            price: $('#editPrice').val(),
+            description: $('#editDescription').val(),
+            id: $('#editId').val(),
+        }
+        $.ajax({
+            url: "@Url.Action("Update","Products")",
+            method: "POST",
+            dataType: "json",
+            data: reqData,
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    $('#product-updating-modal').modal("hide");
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    });
+
+    $('.updateBtn').click(function () {
+        var id = $(this).data("product-id");
+        $('#product-updating-modal').modal("show");
+        $.ajax({
+            url: "@Url.Action("GetById","Products")",
+            method: "POST",
+            dataType: "json",
+            data: { productId: id },
+            success: function (response) {
+                console.log(response)
+                if (response.success) {
+
+                    $('#editName').val(response.data.name);
+                    $('#editNumberOfProduct').val(response.data.numberOfProduct);
+                    $('#editPrice').val(response.data.price);
+                    $('#editDescription').val(response.data.description);
+                    $('#editId').val(id);
+
+                } else {
+                    alert(response.message)
+                }
+
+            }
+        });
+
+    });
+
+    $(document).on("click", ".detailBtn", function () {
+        var id = $(this).data("product-id");
+        $.ajax({
+            url: "@Url.Action("GetById","Products")",
+            method: "POST",
+            dataType: "json",
+            data: { productId: id },
+            success: function (response) {
+                $("#editId").val(response.data.id);
+                $("#editName").val(response.data.name);
+                $("#editNumberOfProduct").val(response.data.numberOfProduct);
+                $("#editPrice").val(response.data.price);
+                $("#editDescription").val(response.data.description);
+                $("#editCreatedDate").val(response.data.createdDate);
+                $("#editCreatedUserId").val(response.data.createdUserId);
+                $("#editIsActive").val(response.data.isActive);
+                $("#editIsDeleted").val(response.data.isDeleted);
+                $("#product-detail-modal").modal("show");
+            }
+        });
+    });
+
+    $(document).on("click", ".detailsBtn", function () {
+        $('#product-details-modal').modal("show");
+        var id = $(this).data("product-id");
+        $.ajax({
+            url: "@Url.Action("GetById", "Products")",
+            method: "POST",
+            dataType: "json",
+            data: { productId: id },
+            success: function (response) {
+                var tableHtml = "<table class='table table-ordered'>";
+                tableHtml += "<tr><td>" + response.data.id + 
+                             "</td><td>" + response.data.name + 
+                             "</td><td>" + response.data.numberOfProduct + 
+                             "</td><td>" + response.data.price +
+                            "</td><td>" + response.data.description +
+                             "</td><td>" + response.data.createdDate +
+                            "</td><td>" + response.data.createdUserId +
+                             "</td><td>" + response.data.isActive +
+                             "</td><td>" + response.data.isDeleted +
+                            "</td></tr>";
+                tableHtml += "</table>";
+                $("#product_list").html(tableHtml);
+            }
+        });
+    });
+</script>
